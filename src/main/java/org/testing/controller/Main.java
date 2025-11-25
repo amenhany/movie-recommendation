@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        Movie movie = new Movie("far Ds", "GH123","genre");
         FileReader fileReader = new FileReader();
         FileWriter fileWriter = new FileWriter();
         MovieParser movieParser = new MovieParser();
