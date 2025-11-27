@@ -20,16 +20,17 @@ public class Main {
         RecommendationEngine recommendationEngine = new RecommendationEngine();
 
         try {
-            List<String> movieLines = lineReader.read("movies.txt");
-            List<String> userLines = lineReader.read("users.txt");
+            List<String> movieLines = lineReader.read("src/main/resources/movies.txt");
+            List<String> userLines = lineReader.read("src/main/resources/users.txt");
 
             List<Movie> movies = movieParser.parse(movieLines);
             List<User> users = userParser.parse(userLines);
 
             List<Recommendation> recommendations = recommendationEngine.recommend(users, movies);
-            lineWriter.write("recommendations.txt", recommendations);
+            lineWriter.write("src/main/resources/recommendations.txt", recommendations);
         } catch (Exception e) {
-            lineWriter.writeError("recommendations.txt", e.getMessage());
+            System.out.println(e.getMessage());
+            lineWriter.writeError("src/main/resources/recommendations.txt", e.getMessage());
         }
     }
 }

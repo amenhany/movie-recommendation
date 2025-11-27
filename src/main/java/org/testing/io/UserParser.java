@@ -33,15 +33,16 @@ public class UserParser implements Parser<User> {
         }
 
         String name = firstLine[0];
-        String id = firstLine[1];
+        String id = firstLine[1].trim();
 
         validateUserName(name);
         validateUserId(id);
 
-        List<String> likedMovieIds = Arrays.asList(sl.split(","));
-        for (String movieId : likedMovieIds) {
+        List<String> likedMovieIds = Arrays.stream(sl.split(",")).map(s -> {
+            String movieId = s.trim();
             validateMovieId(movieId);
-        }
+            return movieId;
+        }).toList();
 
         return new User(name, id, likedMovieIds);
     }

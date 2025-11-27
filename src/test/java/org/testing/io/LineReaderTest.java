@@ -1,9 +1,7 @@
 package org.testing.io;
 
 import org.junit.jupiter.api.Test;
-import org.testing.model.Movie;
 
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,14 +14,14 @@ class LineReaderTest {
     //check if movie file exists
     @Test
     void MovieFileExists() {
-        Path path = Path.of("src/main/resources/movies.txt");
+        Path path = Path.of("src/test/resources/movies.txt");
         assertTrue(Files.exists(path), "movie.txt should exist");
     }
 
     //check if user file exists
     @Test
     void UserFileExists() {
-        Path path = Path.of("src/main/resources/users.txt");
+        Path path = Path.of("src/test/resources/users.txt");
         assertTrue(Files.exists(path), "User.txt should exist");
     }
 
@@ -41,7 +39,7 @@ class LineReaderTest {
     //check if reading each line as an array element
     @Test
     void testReadMoviesFileValid() throws IOException {
-        String filepath = "src/main/resources/movies.txt";
+        String filepath = "src/test/resources/movies.txt";
         LineReader reader = new LineReader();
         List<String> actualLines = reader.read(filepath);
         List<String> expectedLines = List.of(
@@ -63,7 +61,7 @@ class LineReaderTest {
 
     @Test
     void testReadUsersFileValid() throws IOException {
-        String filepath = "src/main/resources/users.txt";
+        String filepath = "src/test/resources/users.txt";
         LineReader reader = new LineReader();
         List<String> actualLines = reader.read(filepath);
         List<String> expectedLines = List.of(
@@ -85,14 +83,5 @@ class LineReaderTest {
                 "M5, M6"
         );
         assertEquals(expectedLines, actualLines, "LineReader should read all lines exactly as in the file");
-    }
-
-    //checking if movie.txt lines is twice the movies
-    @Test
-    void moviesToLINES() throws IOException {
-        LineReader reader = new LineReader();
-        List<String> lines = reader.read("movie.txt");
-        List<Movie> movies = MovieParser.parse(lines);
-        assertEquals(lines.size(), movies.size() * 2, "Each movie should have exactly 2 lines");
     }
 }
