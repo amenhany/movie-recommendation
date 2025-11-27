@@ -41,8 +41,12 @@ public class LineWriter {
     }
     public static void main(String[] args) {
         LineWriter lw = new LineWriter();
-        Movie m1 = new Movie("Forrest Gump", "M2", "Action");
-        Movie m2 = new Movie("Goodfellas", "M3", "Comedy");
+        List<Movie.Genre> genre1 = new ArrayList<>();
+        List<Movie.Genre> genre2 = new ArrayList<>();
+        genre1.add(Movie.Genre.ACTION);
+        genre2.add(Movie.Genre.COMEDY);
+        Movie m1 = new Movie("Forrest Gump", "M2", genre1);
+        Movie m2 = new Movie("Goodfellas", "M3", genre2);
         List<Movie> recommendedMovies = new ArrayList<>();
         recommendedMovies.add(m1);
         recommendedMovies.add(m2);
