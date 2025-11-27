@@ -1,6 +1,7 @@
 package org.testing.io;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import org.testing.model.User;
 
@@ -27,10 +28,10 @@ public class UserParser implements Parser<User> {
             else{
                 existingIds.add(id);
             }
-            
-            
+            List<String> likedMovieIds = Arrays.asList(lines.get(i+1).split(","));
+            users.add(new User(name, id, likedMovieIds));
         }
-        return List.of();
+        return users;
     }
     
     private void validateUserName(String name){
