@@ -1,15 +1,12 @@
 package org.testing.io;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testing.model.Movie;
 import org.testing.model.User;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class UserParserTest {
     private UserParser parser;
@@ -20,7 +17,7 @@ public class UserParserTest {
     }
 
     @Test
-    public void testValidUser() throws Exception {
+    public void testValidUser() {
         List<String> userLines = List.of(
                 "Hazem Ali,12345678A",   // Name, ID
                 "HP123,A456"             // Liked movie IDs
@@ -29,10 +26,10 @@ public class UserParserTest {
         List<User> users = parser.parse(userLines);
 
         assertEquals(1, users.size());
-        User user = users.get(0);
-        assertEquals("Hazem Ali", user.getName());
-        assertEquals("12345678A", user.getUserId());
-        assertEquals(List.of("HP123", "A456"), user.getLikedMovies());
+        User user = users.getFirst();
+        assertEquals("Hazem Ali", user.name());
+        assertEquals("12345678A", user.id());
+        assertEquals(List.of("HP123", "A456"), user.likedMovieIds());
     }
 
     @Test
@@ -65,7 +62,7 @@ public class UserParserTest {
         );
 
         Exception exception = assertThrows(Exception.class, () -> parser.parse(userLines));
-        assertEquals("ERROR: User Name  is wrong", exception.getMessage());
+        assertEquals("ERROR: User Name cannot be empty", exception.getMessage());
 
     }
 
@@ -96,7 +93,7 @@ public class UserParserTest {
     @Test
     public void testEmptyUserId() {
         List<String> userLines = List.of(
-                "Hazem Ali,",   // Empty user ID
+                "Hazem Ali, ",   // Empty user ID
                 "HP123,A456"
         );
 
@@ -116,11 +113,11 @@ public class UserParserTest {
 
         Exception exception = assertThrows(Exception.class, () -> parser.parse(userLines));
 
-        assertEquals("ERROR: User Id 12345678A is wrong", exception.getMessage());
+        assertEquals("ERROR: User Id 12345678A is not unique", exception.getMessage());
     }
 
     @Test
-    public void testUniqueUserIds() throws Exception {
+    public void testUniqueUserIds() {
         List<String> userLines = List.of(
                 "Hazem Ali,12345678A",   // User 1
                 "HP123",
@@ -132,11 +129,11 @@ public class UserParserTest {
 
         assertEquals(2, users.size());
 
-        assertEquals("Hazem Ali", users.get(0).getName());
-        assertEquals("12345678A", users.get(0).getUserId());
+        assertEquals("Hazem Ali", users.get(0).name());
+        assertEquals("12345678A", users.get(0).id());
 
-        assertEquals("Ahmed Ali", users.get(1).getName());
-        assertEquals("98765432A", users.get(1).getUserId());
+        assertEquals("Ahmed Ali", users.get(1).name());
+        assertEquals("98765432A", users.get(1).id());
     }
 
     @Test
@@ -155,7 +152,7 @@ public class UserParserTest {
     }
 
     @Test
-    public void testValidUserIdEndingWithLowercase() throws Exception {
+    public void testValidUserIdEndingWithLowercase() {
         List<String> userLines = List.of(
                 "Hazem Ali,12345678a",  // 9 chars, starts with numbers, ends with lowercase letter
                 "HP123,A456"
@@ -164,15 +161,15 @@ public class UserParserTest {
         List<User> users = parser.parse(userLines);
 
         assertEquals(1, users.size());
-        User user = users.get(0);
+        User user = users.getFirst();
 
-        assertEquals("Hazem Ali", user.getName());
-        assertEquals("12345678a", user.getUserId());
-        assertEquals(List.of("HP123","A456"), user.getLikedMovies());
+        assertEquals("Hazem Ali", user.name());
+        assertEquals("12345678a", user.id());
+        assertEquals(List.of("HP123","A456"), user.likedMovieIds());
     }
 
     @Test
-    public void testValidLikedMovieIds() throws Exception {
+    public void testValidLikedMovieIds() {
         List<String> userLines = List.of(
                 "Hazem Ali,123456789",  // Valid user
                 "FAF128,A456"           // Both movie IDs exist
@@ -181,9 +178,9 @@ public class UserParserTest {
         List<User> users = parser.parse(userLines);
 
         assertEquals(1, users.size());
-        User user = users.get(0);
+        User user = users.getFirst();
 
-        assertEquals(List.of("FAF128", "A456"), user.getLikedMovies());
+        assertEquals(List.of("FAF128", "A456"), user.likedMovieIds());
     }
 
     @Test

@@ -12,7 +12,8 @@ public record Movie(String title, String id, List<Movie.Genre> genres) {
         ROMANCE,
         SCI_FI,
         THRILLER,
-        FANTASY
+        FANTASY,
+        ADVENTURE
     }
 
 

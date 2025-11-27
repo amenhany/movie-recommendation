@@ -14,7 +14,7 @@ public class MovieParser implements Parser<Movie> {
 
         for (int i = 0; i < lines.size(); i += 2) {
             if (i + 1 >= lines.size()) {
-                throw new IllegalArgumentException("Missing genre line for last movie");
+                throw new IllegalArgumentException("ERROR: Missing genre line for last movie");
             }
 
             String titleIdLine = lines.get(i);     //first line
@@ -24,13 +24,14 @@ public class MovieParser implements Parser<Movie> {
             movies.add(movie);
         }
 
+        seenIds.clear();
         return movies;
     }
 
     private Movie validate(String fl, String sl) {
         String[] firstLine = fl.split(",");
         if (firstLine.length != 2) { //array size must be 2 only(title, id)
-            throw new IllegalArgumentException("Invalid title,id line");
+            throw new IllegalArgumentException("ERROR: Invalid title, id line");
         }
         String title = firstLine[0].trim();
         String id = firstLine[1].trim();
@@ -40,7 +41,7 @@ public class MovieParser implements Parser<Movie> {
 
         //second line: genres
         if (seenIds.contains(id)) {
-            throw new IllegalArgumentException("Duplicate movie ID: " + id);
+            throw new IllegalArgumentException("ERROR: Movie Id numbers " + id + " aren't unique");
         }
         seenIds.add(id);
 
@@ -51,7 +52,7 @@ public class MovieParser implements Parser<Movie> {
             try {
                 genres.add(Movie.Genre.valueOf(g));
             } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid genre");
+                throw new IllegalArgumentException("ERROR: Invalid genre " + g);
             }
         }
         genres = validateGenres(genres);
@@ -61,13 +62,13 @@ public class MovieParser implements Parser<Movie> {
 
     private String validateTitle(String title) {
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Title cannot be null or blank");
+            throw new IllegalArgumentException("ERROR: Movie Title cannot be null or blank");
         }
         String[] arr = title.split(" ");
         StringBuilder newTitle = new StringBuilder();
         for (String s : arr) {
             if (!Character.isUpperCase(s.charAt(0)))
-                throw new IllegalArgumentException("Each word must start with capital letter");
+                throw new IllegalArgumentException("ERROR: Movie Title " + title + " is wrong");
 
             newTitle.append(s).append(" ");
         }
@@ -77,7 +78,7 @@ public class MovieParser implements Parser<Movie> {
 
     private String validateId(String id, String title) {
         if (id == null || id.isBlank()) {
-            throw new IllegalArgumentException("ID cannot be null or blank");
+            throw new IllegalArgumentException("ERROR: Movie Id cannot be null or blank");
         }
         //check capital letters
         char[] c = title.toCharArray();
@@ -89,16 +90,16 @@ public class MovieParser implements Parser<Movie> {
         }
 
         if (!id.startsWith(cap.toString())) {
-            throw new IllegalArgumentException("id must start with capital letters in title");
+            throw new IllegalArgumentException("ERROR: Movie Id letters " + id + " are wrong");
         }
 
         //check digits part
         String digits = id.substring(cap.length());
         if (!digits.matches("\\d{3}")) {
-            throw new IllegalArgumentException("id digit part must be exactly 3 digits");
+            throw new IllegalArgumentException("ERROR: Movie Id digits " + id + " must be exactly 3 digits");
         }
         if (digits.charAt(0) == digits.charAt(1) || digits.charAt(1) == digits.charAt(2) || digits.charAt(0) == digits.charAt(2)) {
-            throw new IllegalArgumentException("Id digits must be unique");
+            throw new IllegalArgumentException("ERROR: Movie Id numbers " + id + " aren't unique");
         }
 
         return id;
@@ -108,9 +109,9 @@ public class MovieParser implements Parser<Movie> {
     //genres
     private List<Movie.Genre> validateGenres(List<Movie.Genre> genres) {
         if (genres == null || genres.isEmpty()) {
-            throw new IllegalArgumentException("Movie must have at least one genre");
+            throw new IllegalArgumentException("ERROR: Movie must have at least one genre");
         }
-        return List.copyOf(genres);
+        return genres;
     }
 }
 
