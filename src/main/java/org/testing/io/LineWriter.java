@@ -5,7 +5,7 @@ import org.testing.model.Recommendation;
 import java.io.IOException;
 import java.util.List;
 
-public class FileWriter {
+public class LineWriter {
     public void write(String filepath, List<Recommendation> recommendations) throws IOException {}
     public void writeError(String filepath, String message) {
         try {

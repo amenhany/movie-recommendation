@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class MovieParserTest {
-    FileReader mockFileReader;
+    LineReader mockFileReader;
 
     @BeforeEach
     void init() {
