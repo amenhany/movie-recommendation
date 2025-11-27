@@ -2,11 +2,12 @@ package org.testing.io;
 
 import org.testing.model.Movie;
 
-import java.util.ArrayList;
-import java.util.IllegalFormatException;
-import java.util.List;
+import java.util.*;
 
 public class MovieParser implements Parser<Movie> {
+
+    private final Set<String> seenIds = new HashSet<>();
+
     @Override
     public List<Movie> parse(List<String> lines) throws IllegalFormatException {
         List<Movie> movies = new ArrayList<>();
@@ -38,6 +39,11 @@ public class MovieParser implements Parser<Movie> {
         id = validateId(id, title);
 
         //second line: genres
+        if (seenIds.contains(id)) {
+            throw new IllegalArgumentException("Duplicate movie ID: " + id);
+        }
+        seenIds.add(id);
+
         String[] genresArr = sl.split(",");
         List<Movie.Genre> genres = new ArrayList<>();
         for (String g : genresArr) {
