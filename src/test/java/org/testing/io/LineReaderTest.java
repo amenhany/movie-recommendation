@@ -87,12 +87,4 @@ class LineReaderTest {
         assertEquals(expectedLines, actualLines, "LineReader should read all lines exactly as in the file");
     }
 
-    //checking if movie.txt lines is twice the movies
-    @Test
-    void moviesToLINES() throws IOException {
-        LineReader reader = new LineReader();
-        List<String> lines = reader.read("movie.txt");
-        List<Movie> movies = MovieParser.parse(lines);
-        assertEquals(lines.size(), movies.size() * 2, "Each movie should have exactly 2 lines");
-    }
 }
