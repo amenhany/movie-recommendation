@@ -98,7 +98,7 @@ public class MovieParserTest {
 
         Exception exception = assertThrows(Exception.class, () -> parser.parse(movieLines));
 
-        assertEquals("ERROR: Movie Id numbers 123 aren’t unique", exception.getMessage());
+        assertEquals("ERROR: Movie Id numbers A123 aren’t unique", exception.getMessage());
     }
 
     @Test
