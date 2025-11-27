@@ -3,9 +3,6 @@ package org.testing.model;
 import java.util.List;
 
 public record Movie(String title, String id, List<Movie.Genre> genres) {
-    public Movie {
-
-    }
 
     public enum Genre {
         COMEDY,

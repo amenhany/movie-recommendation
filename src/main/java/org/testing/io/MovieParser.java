@@ -27,12 +27,12 @@ public class MovieParser implements Parser<Movie> {
     }
 
     private Movie validate(String fl, String sl) {
-        String[] firstline = fl.split(",");
-        if (firstline.length != 2) { //array size must be 2 only(title, id)
+        String[] firstLine = fl.split(",");
+        if (firstLine.length != 2) { //array size must be 2 only(title, id)
             throw new IllegalArgumentException("Invalid title,id line");
         }
-        String title = firstline[0].trim();
-        String id = firstline[1].trim();
+        String title = firstLine[0].trim();
+        String id = firstLine[1].trim();
         //validate
         title = validateTitle(title);
         id = validateId(id, title);
@@ -59,11 +59,11 @@ public class MovieParser implements Parser<Movie> {
         }
         String[] arr = title.split(" ");
         StringBuilder newTitle = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            if (!Character.isUpperCase(arr[i].charAt(0)))
+        for (String s : arr) {
+            if (!Character.isUpperCase(s.charAt(0)))
                 throw new IllegalArgumentException("Each word must start with capital letter");
 
-            newTitle.append(arr[i]).append(" ");
+            newTitle.append(s).append(" ");
         }
 
         return newTitle.toString().trim();
@@ -76,9 +76,9 @@ public class MovieParser implements Parser<Movie> {
         //check capital letters
         char[] c = title.toCharArray();
         StringBuilder cap = new StringBuilder();
-        for (int i = 0; i < c.length; i++) {
-            if (Character.isUpperCase(c[i])) {
-                cap.append(c[i]);
+        for (char value : c) {
+            if (Character.isUpperCase(value)) {
+                cap.append(value);
             }
         }
 
