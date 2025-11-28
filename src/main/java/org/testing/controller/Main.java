@@ -18,14 +18,14 @@ public class Main {
         MovieParser movieParser = new MovieParser();
         UserParser userParser = new UserParser();
         RecommendationEngine recommendationEngine = new RecommendationEngine();
-        
+
         try {
             List<String> movieLines = lineReader.read("movies.txt");
             List<String> userLines = lineReader.read("users.txt");
-        
+
             List<Movie> movies = movieParser.parse(movieLines);
             List<User> users = userParser.parse(userLines);
-        
+
             List<Recommendation> recommendations = recommendationEngine.recommend(users, movies);
             lineWriter.write("recommendations.txt", recommendations);
         } catch (Exception e) {
