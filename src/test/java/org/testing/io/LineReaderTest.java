@@ -45,17 +45,17 @@ class LineReaderTest {
         LineReader reader = new LineReader();
         List<String> actualLines = reader.read(filepath);
         List<String> expectedLines = List.of(
-                "Forrest Gump, M1",
+                "Forrest Gump, FG123",
                 "Drama, Romance",
-                "Fight Club, M2",
+                "Fight Club, FC456",
                 "Crime, Drama, Thriller",
-                "Interstellar, M3",
+                "Interstellar, I234",
                 "Adventure, Drama, Sci-Fi",
-                "Goodfellas, M4",
+                "Goodfellas, G789",
                 "Biography, Crime, Drama",
-                "The Prestige, M5,",
+                "The Prestige, TP321",
                 "Drama, Mystery, Sci-FI",
-                "Home Alone, M6,",
+                "Home Alone, HA654",
                 "Comedy, Family"
         );
         assertEquals(expectedLines, actualLines, "LineReader should read all lines exactly as in the file");
@@ -67,22 +67,22 @@ class LineReaderTest {
         LineReader reader = new LineReader();
         List<String> actualLines = reader.read(filepath);
         List<String> expectedLines = List.of(
-                "Karim, U1",
-                "M1, M3, M5",
-                "Abanoub, U2",
-                "M1, M4",
-                "Amen, U3",
-                "M3, M6",
-                "Lujain, U4",
-                "M1, M6",
-                "Hazem, U5",
-                "M2, M5",
-                "Nadeen, U6",
-                "M4",
-                "Aya, U7",
-                "M3, M4",
-                "Mark, U8",
-                "M5, M6"
+                "Karim, 12345678A",
+                "FG123, I234, TP321",
+                "Abanoub, 23456789B",
+                "FG123, G789",
+                "Amen, 34567890C",
+                "I234, HA654",
+                "Lujain, 45678901D",
+                "FG123, HA654",
+                "Hazem, 56789012E",
+                "FC456, TP321",
+                "Nadeen, 67890123F",
+                "G789",
+                "Aya, 78901234G",
+                "I234, G789",
+                "Mark, 89012345H",
+                "TP321, HA654"
         );
         assertEquals(expectedLines, actualLines, "LineReader should read all lines exactly as in the file");
     }
