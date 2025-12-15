@@ -13,6 +13,14 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        new Main().run(
+                "src/main/resources/movies.txt",
+                "src/main/resources/users.txt",
+                "src/main/resources/recommendations.txt"
+        );
+    }
+
+    public void run(String moviesPath, String usersPath, String outputPath) {
         LineReader lineReader = new LineReader();
         LineWriter lineWriter = new LineWriter();
         MovieParser movieParser = new MovieParser();
@@ -20,17 +28,16 @@ public class Main {
         RecommendationEngine recommendationEngine = new RecommendationEngine();
 
         try {
-            List<String> movieLines = lineReader.read("src/main/resources/movies.txt");
-            List<String> userLines = lineReader.read("src/main/resources/users.txt");
+            List<String> movieLines = lineReader.read(moviesPath);
+            List<String> userLines = lineReader.read(usersPath);
 
             List<Movie> movies = movieParser.parse(movieLines);
             List<User> users = userParser.parse(userLines);
 
             List<Recommendation> recommendations = recommendationEngine.recommend(users, movies);
-            lineWriter.write("src/main/resources/recommendations.txt", recommendations);
+            lineWriter.write(outputPath, recommendations);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            lineWriter.writeError("src/main/resources/recommendations.txt", e.getMessage());
+            lineWriter.writeError(outputPath, e.getMessage());
         }
     }
 }
