@@ -98,9 +98,6 @@ public class MovieParser implements Parser<Movie> {
         if (!digits.matches("\\d{3}")) {
             throw new IllegalArgumentException("ERROR: Movie Id digits " + id + " must be exactly 3 digits");
         }
-        if (digits.charAt(0) == digits.charAt(1) || digits.charAt(1) == digits.charAt(2) || digits.charAt(0) == digits.charAt(2)) {
-            throw new IllegalArgumentException("ERROR: Movie Id numbers " + id + " aren't unique");
-        }
 
         return id;
 
