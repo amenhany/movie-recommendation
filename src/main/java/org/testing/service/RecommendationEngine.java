@@ -31,7 +31,7 @@ public class RecommendationEngine {
         return recommendations;
     }
 
-    private List<Movie.Genre> getLikedGenre(User user, List<Movie> allMovies) {
+    List<Movie.Genre> getLikedGenre(User user, List<Movie> allMovies) {
         List<Movie.Genre> likedGenres = new ArrayList<>();
         List<String> likedMoviesId = user.likedMovieIds();
 
@@ -62,7 +62,7 @@ public class RecommendationEngine {
         return moviesByGenre;
     }
 
-    private List<Movie> filterAlreadyLikedMovies(User user, List<Movie> recommendedMovies) {
+    List<Movie> filterAlreadyLikedMovies(User user, List<Movie> recommendedMovies) {
         Set<String> likedMovieIds = new HashSet<>(user.likedMovieIds());
         List<Movie> filtered = new ArrayList<>();
 
