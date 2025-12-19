@@ -58,8 +58,7 @@ public class BottomUpTest {
         assertTrue(users.getFirst().likedMovieIds().contains("TP123"));
     }
 
-    // Test 3: MovieParser + RecommendationEngine
-    // verifies that movies parsed from text files are correctly consumed by the recommendation engine.
+    // Test 3: MovieParser + User Parser + RecommendationEngine
     @Test
     void testMovieParserAndRecommendationEngineIntegration() throws Exception  {
         Path usersFile = getResourcePath("users_bottomUp.txt");
@@ -83,8 +82,7 @@ public class BottomUpTest {
         assertFalse(recMovies.isEmpty());
     }
 
-    // Test 4: UserParser + RecommendationEngine
-    // ensures that liked movie IDs parsed from users are correctly matched with movies inside the recommendation engine
+    // Test 4: User-Specific Recommendation
     @Test
     void testUserParserAndRecommendationEngineIntegration() throws Exception{
         Path moviesFile = getResourcePath("movies_bottomUp.txt");
