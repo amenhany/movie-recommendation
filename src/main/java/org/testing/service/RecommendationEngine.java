@@ -15,34 +15,29 @@ public class RecommendationEngine {
 
         for (User user : users) {
 
-            List<Movie.Genre> likedGenres = getLikedGenre(user, allMovies); //gets liked genres
+            Set<Movie.Genre> likedGenres = getLikedGenre(user, allMovies); //gets liked genres
 
-            List<Movie> recommendedMovies = new ArrayList<>(); //gets all movies with this genre
+            Set<Movie> recommendedMovies = new HashSet<>(); //gets all movies with this genre
             for (Movie.Genre genre : likedGenres) {
                 recommendedMovies.addAll(getMoviesByGenre(genre, allMovies));
             }
 
             recommendedMovies = filterAlreadyLikedMovies(user, recommendedMovies); //filter already liked ones
 
-            Recommendation rec = createRecommendation(user, recommendedMovies);
-            recommendations.add(rec);
+            recommendations.add(new Recommendation(user, recommendedMovies.stream().toList()));
         }
 
         return recommendations;
     }
 
-    List<Movie.Genre> getLikedGenre(User user, List<Movie> allMovies) {
-        List<Movie.Genre> likedGenres = new ArrayList<>();
-        List<String> likedMoviesId = user.likedMovieIds();
+    Set<Movie.Genre> getLikedGenre(User user, List<Movie> allMovies) {
+        Set<Movie.Genre> likedGenres = new HashSet<>();
+        List<String> likedMovieIds = user.likedMovieIds();
 
-        for (String id : likedMoviesId) {                    //loops on liked movies by user
+        for (String id : likedMovieIds) {                    //loops on liked movies by user
             for (Movie allMovie : allMovies) {               //loops on all movies
                 if (allMovie.id().equals(id)) {
-                    for (Movie.Genre genre : allMovie.genres()) {
-                        if (!likedGenres.contains(genre)) { //avoid duplicate genres
-                            likedGenres.add(genre);
-                        }
-                    }
+                    likedGenres.addAll(allMovie.genres());
                     break;
                 }
             }
@@ -51,7 +46,7 @@ public class RecommendationEngine {
         return likedGenres;
     }
 
-    private List<Movie> getMoviesByGenre(Movie.Genre genre, List<Movie> allMovies) {
+    List<Movie> getMoviesByGenre(Movie.Genre genre, List<Movie> allMovies) {
         List<Movie> moviesByGenre = new ArrayList<>();
         for (Movie movie : allMovies) {
             if (movie.genres().contains(genre)) {
@@ -62,9 +57,9 @@ public class RecommendationEngine {
         return moviesByGenre;
     }
 
-    List<Movie> filterAlreadyLikedMovies(User user, List<Movie> recommendedMovies) {
+    Set<Movie> filterAlreadyLikedMovies(User user, Set<Movie> recommendedMovies) {
         Set<String> likedMovieIds = new HashSet<>(user.likedMovieIds());
-        List<Movie> filtered = new ArrayList<>();
+        Set<Movie> filtered = new HashSet<>();
 
         for (Movie m : recommendedMovies) {
             if (!likedMovieIds.contains(m.id())) {
@@ -73,10 +68,6 @@ public class RecommendationEngine {
         }
 
         return filtered;
-    }
-
-    private Recommendation createRecommendation(User user, List<Movie> recommendedMovies) {
-        return new Recommendation(user, recommendedMovies);
     }
 
 }
