@@ -99,7 +99,7 @@ public class UserParserTest {
 
         Exception exception = assertThrows(Exception.class, () -> parser.parse(userLines));
 
-        assertEquals("ERROR: User Id   is wrong", exception.getMessage());
+        assertEquals("ERROR: User Id  is wrong", exception.getMessage());
     }
 
     @Test
